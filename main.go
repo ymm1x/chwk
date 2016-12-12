@@ -74,8 +74,16 @@ func main() {
 	var messages []string
 	messages = flag.Args()
 
-	for _, message := range messages {
-		_, err := send_message(token, room_id, prepend_message+message+append_message)
+	if len(messages) > 0 {
+		for _, message := range messages {
+			_, err := send_message(token, room_id, prepend_message+message+append_message)
+			if err != nil {
+				fmt.Println("faild")
+			}
+		}
+	} else {
+		message, _ := ioutil.ReadAll(os.Stdin)
+		_, err := send_message(token, room_id, prepend_message+string(message)+append_message)
 		if err != nil {
 			fmt.Println("faild")
 		}
