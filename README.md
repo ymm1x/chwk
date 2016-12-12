@@ -35,3 +35,10 @@ $ chwk --room ROOM_ID --to ACCOUNT_ID MESSAGE
 ```sh
 $ script && chwk "complite"
 ```
+
+コマンドの実行結果をチャットに投稿。
+
+```sh
+$ ls | chwk
+```
+
