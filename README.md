@@ -6,7 +6,7 @@
 ひとまず拾ってきてbin下に入れて実行権限つける。
 
 ```sh
-$ wget https://github.com/blue1st/chwk/releases/download/v_0.0.1/chwk_linux_x86_64.zip -O chwk.zip
+$ wget https://github.com/blue1st/chwk/releases/download/v_0.1.1/chwk_linux_x86_64.zip -O chwk.zip
 $ unzip chwk
 $ mv chwk ~/bin/
 $ chmod +x ~/bin/chwk
