@@ -32,7 +32,7 @@ type accountProfile struct {
 }
 
 func me(token string) (accountProfile, error) {
-	res_json, err := api("GET", "/v1/me", token, nil)
+	res_json, err := api("GET", "/v2/me", token, nil)
 	var profile accountProfile
 	json.Unmarshal(res_json, &profile)
 	return profile, err
@@ -44,7 +44,7 @@ type messageResponse struct {
 
 func send_message(token string, room_id int, message string) (messageResponse, error) {
 	data := url.Values{"body": {message}}
-	res_json, err := api("POST", "/v1/rooms/"+strconv.Itoa(room_id)+"/messages", token, data)
+	res_json, err := api("POST", "/v2/rooms/"+strconv.Itoa(room_id)+"/messages", token, data)
 	var msg_res messageResponse
 	json.Unmarshal(res_json, &msg_res)
 	return msg_res, err
