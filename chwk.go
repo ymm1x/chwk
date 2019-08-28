@@ -50,6 +50,14 @@ func send_message(token string, room_id int, message string) (messageResponse, e
 	return msg_res, err
 }
 
+func create_task(account_id int, token string, room_id int, message string) (messageResponse, error) {
+	data := url.Values{"body": {message}, "to_ids": {strconv.Itoa(account_id)}}
+	res_json, err := api("POST", "/v2/rooms/"+strconv.Itoa(room_id)+"/tasks", token, data)
+	var msg_res messageResponse
+	json.Unmarshal(res_json, &msg_res)
+	return msg_res, err
+}
+
 func main() {
 	token := os.Getenv("CHATWORK_TOKEN")
 
@@ -61,12 +69,15 @@ func main() {
 
 	var account_id int
 	var room_id int
+	var is_task bool
 
 	flag.IntVar(&account_id, "to", profile.AccountId, "Account ID")
 	flag.IntVar(&account_id, "t", profile.AccountId, "Account ID (short)")
 
 	flag.IntVar(&room_id, "room", profile.RoomId, "Room ID")
 	flag.IntVar(&room_id, "r", profile.RoomId, "Room ID (short)")
+
+	flag.BoolVar(&is_task, "task", false, "Is task")
 	flag.Parse()
 
 	append_message := os.Getenv("CHATWORK_APPEND_MESSAGE")
@@ -76,7 +87,12 @@ func main() {
 
 	if len(messages) > 0 {
 		for _, message := range messages {
-			_, err := send_message(token, room_id, prepend_message+message+append_message)
+			var err error
+			if is_task {
+				_, err = create_task(account_id, token, room_id, message)
+			} else {
+				_, err = send_message(token, room_id, prepend_message+message+append_message)
+			}
 			if err != nil {
 				fmt.Println("faild")
 			}
