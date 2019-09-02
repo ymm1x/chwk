@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func api(method, uri, token string, data url.Values) ([]byte, error) {
@@ -51,7 +52,12 @@ func send_message(token string, room_id int, message string) (messageResponse, e
 }
 
 func create_task(account_id int, token string, room_id int, message string) (messageResponse, error) {
-	data := url.Values{"body": {message}, "to_ids": {strconv.Itoa(account_id)}}
+	data := url.Values{
+		"body": {message},
+		"limit": {strconv.FormatInt(time.Now().Unix(),10)},
+		"limit_type": {"date"},
+		"to_ids": {strconv.Itoa(account_id)},
+	}
 	res_json, err := api("POST", "/v2/rooms/"+strconv.Itoa(room_id)+"/tasks", token, data)
 	var msg_res messageResponse
 	json.Unmarshal(res_json, &msg_res)
