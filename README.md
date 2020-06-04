@@ -1,7 +1,8 @@
 # chwk
-チャットワークにメッセージを投げるコマンド
 
-## Usage
+A command line tool for sending messages or creating tasks to a chat room via Chatwork API v2.
+
+## Installation
 
 ```sh
 git clone https://github.com/ymm1x/chwk
@@ -9,22 +10,31 @@ cd chwk
 go install .
 ```
 
-環境変数CHATWORK_TOKENにWebUIより取得したトークンを代入。
+## Environment variables
+
+### `CHATWORK_TOKEN` (required)
 
 ```sh
 export CHATWORK_TOKEN=xxxxxxxxxx
+```
+
+## Usage
+
+### Send a message
+
+```sh
+# Send to a my chat of chatwork token's user
 chwk MESSAGE
+
+# With pipeline
+echo MESSAGE | chwk
+
+# Send to a speficied room
 chwk --room ROOM_ID --to ACCOUNT_ID MESSAGE
 ```
 
-実行時間の長いバッチの完了の通知などに。
+### Create a new task
 
 ```sh
-script && chwk "complite"
-```
-
-コマンドの実行結果をチャットに投稿。
-
-```sh
-ls | chwk
+chwk -task "new task!"
 ```
